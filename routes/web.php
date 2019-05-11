@@ -14,3 +14,18 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+            return json_encode(["message" => "Welcome to Newsletter subscription API."]);
+    });
+
+    $router->get('register', [
+            'uses' => 'AuthController@getRegister',
+        ]);
+
+    $router->post('register', [
+            'uses' => 'AuthController@postRegister',
+            'as'   => 'register',
+    ]);
+});
