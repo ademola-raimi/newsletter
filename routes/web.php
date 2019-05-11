@@ -20,12 +20,25 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
             return json_encode(["message" => "Welcome to Newsletter subscription API."]);
     });
 
-    $router->get('register', [
-            'uses' => 'AuthController@getRegister',
-        ]);
-
     $router->post('register', [
-            'uses' => 'AuthController@postRegister',
+            'uses' => 'AuthController@register',
             'as'   => 'register',
+    ]);
+
+    $router->post('login', [
+            'uses' => 'AuthController@authenticate',
+            'as'   => 'login',
+    ]);
+});
+
+
+$router->group(['prefix' => 'api/v1', 'middleware' => 'admin.user'], function () use ($router) {
+    
+    $router->post('new/admin', [
+        'uses' => 'AuthController@createAdminUser',
+    ]);
+
+    $router->post('newsletter', [
+        'uses' => 'NewsletterController@createNewsletter',
     ]);
 });
