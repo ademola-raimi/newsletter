@@ -29,6 +29,23 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
             'uses' => 'AuthController@authenticate',
             'as'   => 'login',
     ]);
+
+    $router->post('subscribe', [
+            'uses' => 'SubscriptionController@subscribe',
+            'as'   => 'subscribe',
+    ]);
+
+    $router->get('confirm/subscription/{confirmationId}', [
+            'uses' => 'SubscriptionController@confirmSubscribe',
+            'as'   => 'confirm-subscribe',
+    ]);
+
+    $router->get('newsletters', [
+            'uses' => 'NewsletterController@fetchNewsletters',
+            'as'   => 'fetch-newsletter',
+    ]);
+
+
 });
 
 
@@ -40,5 +57,9 @@ $router->group(['prefix' => 'api/v1', 'middleware' => 'admin.user'], function ()
 
     $router->post('newsletter', [
         'uses' => 'NewsletterController@createNewsletter',
+    ]);
+
+    $router->delete('newsletter/{id}', [
+        'uses' => 'NewsletterController@deleteNewsletter',
     ]);
 });
