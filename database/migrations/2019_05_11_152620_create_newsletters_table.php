@@ -17,7 +17,7 @@ class CreateNewslettersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
 
             $table->foreign('user_id')
                 ->references('id')
