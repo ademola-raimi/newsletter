@@ -9,6 +9,8 @@ class Subscription extends Model
     protected $fillable = [
         'email',
         'newsletter_id',
+        'confirmed_at',
+        'confirmation_id'
     ];
 
     /**
