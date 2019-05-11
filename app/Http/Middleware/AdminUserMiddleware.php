@@ -62,6 +62,7 @@ class AdminUserMiddleware
 
         if (!empty($authHeader)) {
             $credentials = $this->decodeToken($authHeader);
+
             if ($credentials) {
                 if ($credentials->role_id === self::ADMIN_USER) {
                     $request->userId = $credentials->user_id;

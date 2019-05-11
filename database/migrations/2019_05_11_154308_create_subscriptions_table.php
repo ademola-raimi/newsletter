@@ -17,6 +17,8 @@ class CreateSubscriptionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('email');
             $table->integer('newsletter_id')->unsigned();
+            $table->date('confirmed_at');
+            $table->string('confirmation_id');
 
             $table->foreign('newsletter_id')
                 ->references('id')
