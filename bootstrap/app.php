@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +64,11 @@ $app->singleton(
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
+
+$app->routeMiddleware([
+    'regular.user' => App\Http\Middleware\RegularUserMiddleware::class,
+    'admin.user'   => App\Http\Middleware\AdminUserMiddleware::class
+]);
 
 /*
 |--------------------------------------------------------------------------
