@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'name', 'email', 'passsword', 'role_id'
     ];
 
     /**
@@ -29,4 +29,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * A User belongs to many Newsletter
+     *
+     * @return object
+     */
+    public function subscription()
+    {
+        return $this->hasMany('app\Newsletter');
+    }
 }
