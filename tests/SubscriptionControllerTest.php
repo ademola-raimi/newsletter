@@ -4,7 +4,9 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class SubscriptionControllerTest extends TestCase
-{    use DatabaseTransactions;
+{    
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -32,17 +34,16 @@ class SubscriptionControllerTest extends TestCase
      *
      * @return void
      */
-    public function testSubscriptionSucceed()
+    public function testSubscriptionDoNotSucceed()
     {
         $newsletter = factory('App\Newsletter')->make(
             ['id' => 1]
         );
-        // dd($newsletter->id);
-        $this->json('POST', 'api/v1/subscription', ['email' => 'sample@y.com', 'newsletter_id' => $newsletter->id]);
-            dd($this->response->getContent());
-             // ->seeJson([
-             //    'message' => 'Newsletter was successful created',
-             // ]);
+
+        $this->json('POST', 'api/v1/subscription', ['email' => 'sample@y.com', 'newsletter_id' => $newsletter->id])
+             ->seeJson([
+                'message' => 'Cannot find newsletter',
+             ]);
     }
 
     /**
