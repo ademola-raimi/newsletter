@@ -30,7 +30,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
             'as'   => 'login',
     ]);
 
-    $router->post('subscribtion', [
+    $router->post('subscription', [
             'uses' => 'SubscriptionController@subscribe',
             'as'   => 'subscribe',
     ]);
