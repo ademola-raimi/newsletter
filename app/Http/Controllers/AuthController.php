@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'name'     => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
      *
      * @return string
      */
-    public function generateToken($user)
+    private function generateToken($user)
     {
         $appSecret    = getenv('APP_SECRET');
         $jwtAlgorithm = getenv('JWT_ALGORITHM');
@@ -107,6 +107,6 @@ class AuthController extends Controller
 
         $user->increment('role_id');
 
-        return response()->json(['message' => 'user role successfully updated'], 400);
+        return response()->json(['message' => 'user role successfully updated'], 200);
     }
 }
