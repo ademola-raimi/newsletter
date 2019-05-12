@@ -77,16 +77,20 @@ class NewsletterController extends Controller
      */
     public function deleteNewsletter(Request $request)
     {
-        $newsletter = $this->newsletter->where(['id' => $request->id, 'user_id' => $request->userId])->get();
+        $newsletter = $this->newsletter->find($request->id);
+        if (!$newsletter) {
+            return response()->json(['message' => 'Cannot find Newsletter'], 404);
+        }
+        $newsletter = $this->newsletter->where(['id' => $request->id, 'user_id' => $request->userId])->first();
 
         if ($newsletter) {
             $result = $newsletter->delete();
-            if (result) {
+            if ($result) {
                 return response()->json(['message' => 'newsletter successful deleted'], 200);
             } 
             return response()->json(['message' => 'something went wrong, please try again later'], 200);
         }
 
-        return response()->json(['message' => 'You cannot delete a newsletter that you do not own'], 200);
+        return response()->json(['message' => 'You cannot delete a newsletter that you do not own'], 401);
     }
 }
