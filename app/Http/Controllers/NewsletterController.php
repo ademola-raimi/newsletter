@@ -12,7 +12,8 @@ class NewsletterController extends Controller
     /**
      * The newsletter instance.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var \App\User
+     * @var \App\Newsletter
      */
     protected $newsletter;
     protected $user;
@@ -20,7 +21,9 @@ class NewsletterController extends Controller
     /**
      * Create an instance of newsletter.
      *
-     * @param  \Illuminate\Contracts\Auth\Newsletter  $newsletter
+     * @param  \App\Newsletter  $newsletter
+     * @param  \App\User  $user
+     * 
      * @return void
      */
     public function __construct(User $user, Newsletter $newsletter)
@@ -30,9 +33,10 @@ class NewsletterController extends Controller
     }
 
     /**
-     * create newsletter.
+     * fetch newsletter.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function fetchNewsletters(Request $request)
     {
@@ -48,10 +52,17 @@ class NewsletterController extends Controller
     /**
      * create newsletter.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function createNewsletter(Request $request)
     {
+        $user = $this->user->find($request->userId);
+        if (!$user) {
+            return response()->json(['message' => 'Token expired'], 404);
+        }
+
         $this->validate($request, [
             'title'     => 'required',
             'description' => 'required',
@@ -73,7 +84,9 @@ class NewsletterController extends Controller
     /**
      * delete newsletter.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function deleteNewsletter(Request $request)
     {

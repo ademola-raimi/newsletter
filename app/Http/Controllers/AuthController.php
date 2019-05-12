@@ -11,9 +11,29 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
+     * The user instance.
+     *
+     * @var \App\User
+     */
+    protected $user;
+
+    /**
+     * Create an instance of user.
+     *
+     * @param  \Model\User  $User
+     * @return void
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
      * create user.
      *
-     * @return string containing token
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
     {
@@ -39,8 +59,9 @@ class AuthController extends Controller
     /**
      * Authenticate a user and return the token if the provided credentials are correct.
      * 
-     * @param  \App\User   $user 
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request) {
         $this->validate($request, [
@@ -69,7 +90,9 @@ class AuthController extends Controller
     /**
      * Generate a token for user.
      *
-     * @return string
+     * @param $user
+     * 
+     * @return \Illuminate\Http\Response
      */
     private function generateToken($user)
     {
@@ -95,7 +118,9 @@ class AuthController extends Controller
     /**
      * create an admin user.
      *
-     * @return string
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function createAdminUser(Request $request)
     {

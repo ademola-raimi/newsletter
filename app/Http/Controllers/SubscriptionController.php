@@ -14,7 +14,8 @@ class SubscriptionController extends Controller
     /**
      * The subscription instance.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var \App\subscription
+     * @var \App\Newsletter
      */
     protected $subscription;
     protected $newsletter;
@@ -22,7 +23,9 @@ class SubscriptionController extends Controller
     /**
      * Create an instance of subscription.
      *
-     * @param  \Illuminate\Contracts\Auth\subscription  $subscription
+     * @param  \App\Subscription  $subscription
+     * @param  \App\Newsletter  $subscription
+     * 
      * @return void
      */
     public function __construct(Subscription $subscription, Newsletter $newsletter)
@@ -34,7 +37,9 @@ class SubscriptionController extends Controller
     /**
      * create subscription.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function subscribe(Request $request)
     {
@@ -68,8 +73,10 @@ class SubscriptionController extends Controller
     /**
      * Send mail to user
      *
-     * @param  Request  $request
-     * @return dashboard
+     * @param \App\User $user
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     private function sendEmail($user, $request)
     {
@@ -82,7 +89,9 @@ class SubscriptionController extends Controller
     /**
      * confirm subscription.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function confirmSubscription(Request $request)
     {
@@ -104,7 +113,9 @@ class SubscriptionController extends Controller
     /**
      * delete subscription.
      *
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function deleteSubscription(Request $request)
     {
