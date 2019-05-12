@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Hash;
 use App\Subscription;
+use App\Newsletter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -14,6 +17,7 @@ class SubscriptionController extends Controller
      * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $subscription;
+    protected $newsletter;
 
     /**
      * Create an instance of subscription.
@@ -21,9 +25,10 @@ class SubscriptionController extends Controller
      * @param  \Illuminate\Contracts\Auth\subscription  $subscription
      * @return void
      */
-    public function __construct(Subscription $subscription)
+    public function __construct(Subscription $subscription, Newsletter $newsletter)
     {
         $this->subscription = $subscription;
+        $this->newsletter = $newsletter;
     }
 
     /**
@@ -33,18 +38,24 @@ class SubscriptionController extends Controller
      */
     public function subscribe(Request $request)
     {
+        $newsletter = $this->newsletter->find($request->newsletterId);
+        if (!$newsletter) {
+            return response()->json(['message' => 'Cannot find newsletter'], 404);
+        }
+
         $this->validate($request, [
             'email'     => 'required',
             'newsletterId' => 'required',
         ]);
 
-        $user = $this->newsletter->create([
+        $user = $this->subscription->create([
             'email'      => $request->email,
             'newsletter_id'  => $request->newsletterId,
-            'confirmation_id' => str_random(32)
+            'confirmation_id' => str_random(32),
+            'confirmed_at' => null
         ]);
 
-        $this->sendEmail($user);
+        $this->sendEmail($user, $request);
 
         if ($user) {
             return response()->json(['message' => 'You have succesfully subscribed for this newsletter, please check your email and approve for confirmation'], 201);
@@ -53,9 +64,18 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'Oops, Something went wrong, please try again later'], 500);
     }
 
-    private function sendEmail($user)
+    /**
+     * Send mail to user
+     *
+     * @param  Request  $request
+     * @return dashboard
+     */
+    private function sendEmail($user, $request)
     {
-
+        $link = $request->root() . "/api/v1/confirm/subscription/" . $user->confirmation_id;
+         Mail::raw('Thank you for subscribing, click this link to confirm ' . $link, function($msg) use ($user) {
+            $msg->to([$user->email]); 
+        });
     }
 
     /**
@@ -67,7 +87,7 @@ class SubscriptionController extends Controller
     {
         $subscription = $this->subscription->where('confirmation_id', $request->confirmationId)->first();
         if ($subscription) {
-            $subscription->confirmed_at = date();
+            $subscription->confirmed_at = Carbon::now();
             $subscription->confirmation_id = null;
             $response = $subscription->save();
             if ($response) {
@@ -87,11 +107,19 @@ class SubscriptionController extends Controller
      */
     public function deleteSubscription(Request $request)
     {
-        $subscription = $this->subscription->where(['id' => $request->id, 'email' => $request->email])->get();
+        $subscription = $this->subscription->find($request->id);
+        if (!$subscription) {
+            return response()->json(['message' => 'Cannot find subscription'], 404);
+        }
+        if (is_null($request->email) || empty($request->email)) {
+            return response()->json(['message' => 'email cannot be empty, Please pass email as a query'], 401);
+        }
+
+        $subscription = $this->subscription->where(['id' => $request->id, 'email' => $request->email])->first();
 
         if ($subscription) {
             $result = $subscription->delete();
-            if (result) {
+            if ($result) {
                 return response()->json(['message' => 'subscription successful deleted'], 200);
             } 
             return response()->json(['message' => 'something went wrong, please try again later'], 500);
