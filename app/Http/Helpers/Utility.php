@@ -1,10 +1,18 @@
 <?php
 
-namespace App\Http\Helpers\Utility;
+namespace App\Http\Helpers;
+
+use Firebase\JWT\JWT;
 
 class Utility
 {
-
+    /**
+     * This method decode header token.
+     *
+     * @param $token
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function decodeToken($token)
     {
         try {
