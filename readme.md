@@ -6,27 +6,32 @@ To get started, Create a file in the root directory of the project, call it `.en
 Copy, paste and modify the following into your environment configuration set up.
 Your database configuration in the .env file should be as follows:
 
-APP_ENV=local
-APP_DEBUG=true
-APP_LOG_LEVEL=debug
-APP_URL=http://localhost
+```APP_ENV=local
+   APP_DEBUG=true
+   APP_LOG_LEVEL=debug
+   APP_URL=http://localhost
+```
 
 ### Database Configuration for localhost
+```
 DB_CONNECTION=mysql
 DB_HOST=xxx
 DB_PORT=xxx
 DB_DATABASE=xxx
 DB_USERNAME=xxx
 DB_PASSWORD=xxx
+```
 
 ### Firebase JWT configuration
+```
 APP_SECRET=XXX
 SERVERNAME=newsletter
 JWT_ALGORITHM=HS256
 TOKENID=xxx
+```
 
 ### Laravel Mail Configuration
-MAIL_DRIVER=smtp
+```MAIL_DRIVER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=465
 MAIL_USERNAME=xxx
@@ -34,6 +39,7 @@ MAIL_PASSWORD=xxx
 MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS=subscription@newsletter.com
 MAIL_FROM_NAME="Newletter app"
+```
 
 To be able to send mail, input your username (your gmail) and password (your gmail password) in the Mail configuration.
 
