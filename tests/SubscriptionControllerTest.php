@@ -30,7 +30,7 @@ class SubscriptionControllerTest extends TestCase
     // }
 
     /**
-     * A basic test example.
+     * test newsletter not found.
      *
      * @return void
      */

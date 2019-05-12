@@ -22,7 +22,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * user created.
      *
      * @return void
      */
@@ -35,7 +35,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * test email already exist.
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * test fields are required.
      *
      * @return void
      */
@@ -63,7 +63,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * test invalid email
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * test login
      *
      * @return void
      */
@@ -88,7 +88,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * test email does not exist.
      *
      * @return void
      */

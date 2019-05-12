@@ -40,7 +40,7 @@ class NewsletterControllerTest extends TestCase
     // }
 
     /**
-     * A basic test example.
+     * test expired token.
      *
      * @return void
      */
