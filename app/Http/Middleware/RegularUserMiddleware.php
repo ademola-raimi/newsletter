@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use App\Http\Helpers\Utility;
 
 class RegularUserMiddleware
 {
@@ -15,35 +16,38 @@ class RegularUserMiddleware
     const ADMIN_USER   = '2';
 
     /**
+     * The utility instance.
+     *
+     * @var $utility
+     */
+    private $utility;
+
+    /**
+     * Create an instance of Utility.
+     *
+     * @param $newsletter
+     * @return void
+     */
+    public function __construct(Utility $utility)
+    {
+        $this->utility = $utility;
+    }
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @return mixed
+     * 
+     * @return \Illuminate\Http\Response
      */
-
-    private function decodeToken($token)
-    {
-        try {
-            return JWT::decode($token, getenv('APP_SECRET'), [getenv('JWT_ALGORITHM')]);
-        } catch(ExpiredException $e) {
-            return response()->json([
-                'error' => 'Provided token is expired.'
-            ], 400);
-        } catch(Exception $e) {
-            return response()->json([
-                'error' => 'An error while decoding token.'
-            ], 400);
-        }
-    }
-
     public function handle($request, Closure $next)
     {
         $authHeader = $request->header('authorization');
 
 
         if (!empty($authHeader)) {
-            $credentials = $this->decodeToken($authHeader);
+            $credentials = $this->utility->decodeToken($authHeader);
             if (credentials) {
                 if ($credentials->role_id === self::ADMIN_USER || $credentials->role_id === self::REGULAR_USER) {
                     $request->userId = $credentials->user_id;
