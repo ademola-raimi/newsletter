@@ -1,10 +1,10 @@
 
-Welcome to small Newsletter-Application API built with Lumen 5.8
+Welcome to a small Newsletter-Application API built with Lumen 5.8
 
 To get started, Create a file in the root directory of the project, call it `.env`.
 
-Copy, paste and modify the following file with your environment configuration set up of
-your database configuration in the env as follow:
+Copy, paste and modify the following into your environment configuration set up.
+Your database configuration in the .env file should be as follows:
 
 APP_ENV=local
 APP_DEBUG=true
@@ -42,8 +42,7 @@ For you to be able to send email, you will need to turn on third party on your g
 After the configuration is done, run ```composer install``` in order to install all the dependency used in this project.
 Then run ```php artisan migrate``` to migrate the tables.
 
-When all these are done, you can start your server by running `php -S localhost:8000 -t public` and vagrant users,
-run `vagrant up`.
+When all these are done, you can start your server by running `php -S localhost:8000 -t public` while vagrant users should run `vagrant up`.
 ## Registration
 
 In order to register a user in the application, send a post request to 
@@ -74,7 +73,7 @@ Email and password are required fields, if they are not supplied, the following 
 ```
 
 ## Authentication
-In order to access some of the endpoints, there is a need to authenticate. I authentication is successful, a JWT token is generated and it will be a header to allow for access for the remaining endpoints. Send a post request to `POST api/v1/login` with payload:
+In order to access some of the endpoints, there is a need to authenticate. If authentication is successful, a JWT token is generated and it will be a header to allow for access for the remaining endpoints. Send a post request to `POST api/v1/login` with payload:
 ```
 {
 	"email": "jd@example.com",
@@ -87,10 +86,10 @@ The following json response is returned:
 	"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJEXXXXXXXXX"
 }
 ```
-Email and password are also required fields like in the Register endpoint. Email must be a valid email address. The token should be copied some where safe as it will be use as header for authorization of some of the endpoints.
+Email and password are also required fields like in the Register endpoint. Email must be a valid email address. The token should be copied somewhere safe as it will be used as the header for authorization of some of the endpoints.
 
 ### Newsletter
-A user needs to  be registered in the platform in order to create a newsletter and also have to be an admin user. To create a newsletter, send post request to `POST api/v1/newsletter` with the following payload:
+In order to create a newsletter on this platform, a user needs to be registered and has to be authorized as an admin user. To create a newsletter, send post request to `POST api/v1/newsletter` with the following payload:
 ```
 {
 	"title": "title of newsletter",
