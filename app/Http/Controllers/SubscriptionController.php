@@ -39,12 +39,13 @@ class SubscriptionController extends Controller
     public function subscribe(Request $request)
     {
         $newsletter = $this->newsletter->find($request->newsletterId);
+
         if (!$newsletter) {
             return response()->json(['message' => 'Cannot find newsletter'], 404);
         }
 
         $this->validate($request, [
-            'email'     => 'required',
+            'email'     => 'required|email',
             'newsletterId' => 'required',
         ]);
 
@@ -97,7 +98,7 @@ class SubscriptionController extends Controller
             return response()->json(['message' => 'Oops, Something went wrong, please try again later'], 500);
         }
 
-        return response()->json(['message' => 'We cannot confirm your subscription because you have already confirmed it'], 400);
+        return response()->json(['message' => 'We cannot confirm your subscription either because you have already confirmed it or the link is broken'], 400);
     }
 
     /**
