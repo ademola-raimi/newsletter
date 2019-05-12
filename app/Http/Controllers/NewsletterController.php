@@ -86,7 +86,7 @@ class NewsletterController extends Controller
         if ($newsletter) {
             $result = $newsletter->delete();
             if ($result) {
-                return response()->json(['message' => 'newsletter successful deleted'], 200);
+                return response()->json(['message' => 'newsletter successfully deleted'], 200);
             } 
             return response()->json(['message' => 'something went wrong, please try again later'], 200);
         }
