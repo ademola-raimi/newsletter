@@ -15,5 +15,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'password' => $faker->name,
+    ];
+});
+
+$factory->define(App\Newsletter::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->title,
+        'description' => $faker->text,
     ];
 });
