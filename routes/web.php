@@ -30,13 +30,18 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
             'as'   => 'login',
     ]);
 
-    $router->post('subscribe', [
+    $router->post('subscribtion', [
             'uses' => 'SubscriptionController@subscribe',
             'as'   => 'subscribe',
     ]);
 
+    $router->delete('subscription/{id}', [
+            'uses' => 'SubscriptionController@deleteSubscription',
+            'as'   => 'subscribe',
+    ]);
+
     $router->get('confirm/subscription/{confirmationId}', [
-            'uses' => 'SubscriptionController@confirmSubscribe',
+            'uses' => 'SubscriptionController@confirmSubscription',
             'as'   => 'confirm-subscribe',
     ]);
 
